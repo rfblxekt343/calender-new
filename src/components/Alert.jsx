@@ -4,7 +4,7 @@ const Alert = () => {
   const [visible, setVisible] = useState(true);
     console.log("djhfjd")
   if (!visible) return null;
-    const alerts=['זמן ההכנ"ס התקצר ביומיים'    ,'נכנס שינוי בתיק יסוד','נכנס תוכן של יום- גף לוחמה', '','']
+    const alerts=['זמן ההכנ"ס התקצר ביומיים'    ,'נכנס שינוי בתיק יסוד','נכנס תוכן של יום- גף לוחמה', 'להוסיף 3 שעות ש"כ','נוספו 50 חיילים יש להכין מגורים וכיתות', 'הקולנוע לא פנוי ביום ששוריין']
   return (
 <div className="fixed inset-0 flex items-center justify-center z-50">
       {/* Optional overlay background */}
