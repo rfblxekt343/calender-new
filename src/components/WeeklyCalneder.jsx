@@ -5,34 +5,69 @@ const WeeklyCalendar = () => {
   const [draggedItem, setDraggedItem] = useState(null);
 
   const days = ['א', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳']; // Mon-Sun in Hebrew
-  const hours = Array.from({ length: 14 }, (_, i) => i + 8); // 8 AM to 9 PM
-  
-  const wordBank = [
-    { text: 'פגישה', color: 'bg-blue-500' },
-    { text: 'אימון', color: 'bg-green-500' },
-    { text: 'לימוד', color: 'bg-purple-500' },
-    { text: 'קניות', color: 'bg-pink-500' },
-    { text: 'שיחה', color: 'bg-yellow-500' },
-    { text: 'רופא', color: 'bg-red-500' },
-    { text: 'ארוחה', color: 'bg-orange-500' },
-    { text: 'נסיעה', color: 'bg-indigo-500' },
-    { text: 'סרט', color: 'bg-teal-500' },
-    { text: 'ניקיון', color: 'bg-gray-500' },
-    { text: 'בישול', color: 'bg-amber-500' },
-    { text: 'הליכה', color: 'bg-lime-500' },
-    { text: 'קריאה', color: 'bg-cyan-500' },
-    { text: 'שינה', color: 'bg-slate-500' },
-    { text: 'מסיבה', color: 'bg-fuchsia-500' },
-    { text: 'עבודה', color: 'bg-blue-600' },
-    { text: 'מנוחה', color: 'bg-emerald-500' },
-    { text: 'דייט', color: 'bg-rose-500' }
+  const startHour = 8; // 8 AM
+  const endHour = 21;   // 9 PM
+  const timeIncrements = 0.5; // Half-hour increments
+  const hours = Array.from({ length: (endHour - startHour) / timeIncrements * 2 }, (_, i) => startHour + i * timeIncrements);
+
+  const contentsTypes = [
+    { value: 'פיקודי', color: 'bg-blue-400' },
+    { value: 'הדרכתי', color: 'bg-green-400' },
+    { value: 'מקצועי', color: 'bg-purple-400' },
+    { value: 'לוגיסיטי', color: 'bg-orange-400' }
+  ];
+  // Define 7 small banks, each with a title, color, and items
+  const wordBanks = [
+    {
+      title: 'משש הכנס חדם',
+      color: 'bg-blue-500',
+      items: ['', '', '']
+    },
+    {
+      title: 'תיק אם הכנס',
+      color: 'bg-red-500',
+      items: ['יומיים מטווחים', 'אימון כל ערב', 'גיבוש 7 שעות','הבנה עצמית יומיים','שגמ יומיים']
+    },
+    {
+      title: 'נוהל תלב',
+      color: 'bg-blue-600',
+      items: ['יחס סגל סגל', 'יחס סגל חיכים', 'מבחן מקצועי','יישור קו מדריכות', 'משך טיל','מסדר אמהד','כשיר להכשיר']
+    },
+    {
+      title: 'איתור צורך להכנס',
+      color: 'bg-purple-500',
+      items: ['טנה ביקש תיקוף של כלל התכנים מחדש', 'הסגל ביקש גיבוש של יום מחוץ לבסיס','70% סגל חדש','העמקה בלקויות למידה']
+    },
+    {
+      title: 'סולם להדרכה',
+      color: 'bg-gray-500',
+      items: ['תפיסת הדרכה', 'הארכת משך מסדר אמהד ל6 שעות (כרגע הוא שעתיים)']
+    },
+    {
+      title: 'תחקור הכנס קודם',
+      color: 'bg-orange-500',
+      items: ['מעט מדי זמן מסלולי', 'מעט מדי מנוחה','יישור קו מקצועי לא מספק']
+    },
+    {
+      title: 'דרישות נוספות',
+      color: 'bg-green-500',
+      items: ['', '', '']
+    }
   ];
 
   const formatHour = (hour) => {
-    if (hour === 12) return '12:00';
-    if (hour > 12) return `${hour - 12}:00`;
-    return `${hour}:00`;
+    const hourInt = Math.floor(hour);
+    const minutes = (hour % 1) * 60;
+
+    let displayHour = hourInt === 12 ? '12' : (hourInt > 12 ? hourInt - 12 : hourInt).toString();
+    let displayMinutes = minutes === 0 ? '00' : minutes.toString();
+
+    return `${displayHour}:${displayMinutes}`;
   };
+
+    const generateKey = (day, hour) => {
+        return `${day}-${hour}`;
+    };
 
   const handleDragStart = (e, item) => {
     setDraggedItem(item);
@@ -44,26 +79,27 @@ const WeeklyCalendar = () => {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDrop = (e, day, hour) => {
+ const handleDrop = (e, day, hour) => {
     e.preventDefault();
     if (draggedItem) {
-      const key = `${day}-${hour}`;
-      const newItem = {
-        ...draggedItem,
-        id: Date.now() + Math.random()
-      };
-      
-      setCalendarItems(prev => ({
-        ...prev,
-        [key]: [...(prev[key] || []), newItem]
-      }));
-      
-      setDraggedItem(null);
+        const key = generateKey(day, hour);
+        const newItem = {
+            ...draggedItem,
+            id: Date.now() + Math.random()
+        };
+
+        setCalendarItems(prev => ({
+            ...prev,
+            [key]: [...(prev[key] || []), newItem]
+        }));
+
+        setDraggedItem(null);
     }
-  };
+};
+
 
   const removeItem = (day, hour, itemId) => {
-    const key = `${day}-${hour}`;
+       const key = generateKey(day, hour);
     setCalendarItems(prev => ({
       ...prev,
       [key]: (prev[key] || []).filter(item => item.id !== itemId)
@@ -79,7 +115,7 @@ const WeeklyCalendar = () => {
       {/* Header */}
       <div className="mb-4 text-center">
         <h1 className="text-xl font-bold text-gray-800 mb-2">יומן שבועי</h1>
-        <button 
+        <button
           onClick={clearAll}
           className="bg-red-500 text-white px-3 py-1 rounded text-sm font-medium hover:bg-red-600"
         >
@@ -91,14 +127,21 @@ const WeeklyCalendar = () => {
       <div className="mb-4 bg-white rounded-lg p-3 shadow-sm">
         <h2 className="text-sm font-semibold text-gray-700 mb-2">פעילויות (גרור לוח השנה)</h2>
         <div className="grid grid-cols-6 gap-1">
-          {wordBank.map((item, index) => (
-            <div
-              key={index}
-              draggable
-              onDragStart={(e) => handleDragStart(e, item)}
-              className={`${item.color} text-white text-xs font-medium py-1 px-2 rounded cursor-move active:scale-95 transition-transform text-center select-none`}
-            >
-              {item.text}
+          {wordBanks.map((item, index) => (
+            <div key={index} className="mb-2">
+              <h3 className="text-sm font-semibold">{item.title}</h3>
+              <ul>
+                {item.items.map((bankItem, bankIndex) => (
+                  <li
+                    key={bankIndex}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, { title: bankItem, color: item.color })} // Pass individual item as dragged item
+                    className={`${item.color} text-white text-xs font-medium py-1 px-2 rounded cursor-move active:scale-95 transition-transform text-center select-none inline-block mr-1 mb-1`}
+                  >
+                    {bankItem}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
@@ -118,21 +161,21 @@ const WeeklyCalendar = () => {
 
         {/* Time Rows */}
         {hours.map(hour => (
-          <div key={hour} className="grid grid-cols-8 border-b last:border-b-0 min-h-[60px]">
+          <div key={hour} className="grid grid-cols-8 border-b last:border-b-0 min-h-[30px]">
             {/* Time Column */}
             <div className="p-2 text-xs font-medium text-gray-500 border-l bg-gray-50 flex items-start">
               {formatHour(hour)}
             </div>
-            
+
             {/* Day Columns */}
             {days.map(day => {
-              const key = `${day}-${hour}`;
+              const key = generateKey(day, hour);
               const items = calendarItems[key] || [];
-              
+
               return (
                 <div
                   key={day}
-                  className="border-l first:border-l-0 p-1 min-h-[60px] hover:bg-gray-50 transition-colors"
+                  className="border-l first:border-l-0 p-1 min-h-[30px] hover:bg-gray-50 transition-colors"
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, day, hour)}
                 >
@@ -144,7 +187,7 @@ const WeeklyCalendar = () => {
                         onClick={() => removeItem(day, hour, item.id)}
                       >
                         <span className="text-xs ml-1 opacity-70">×</span>
-                        <span className="truncate flex-1 text-right">{item.text}</span>
+                        <span className="truncate flex-1 text-right">{item.title}</span>
                       </div>
                     ))}
                   </div>
