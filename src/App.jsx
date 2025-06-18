@@ -14,25 +14,13 @@ const [showAlert, setShowAlert] = useState(false);
     return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
   }, []);
 
-const [showAlert, setShowAlert] = useState(false);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowAlert(true);
-    }, 3000);
-
-    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
-  }, []);
-
   return (
    <>
      <WeeklyCalendar/>
-     {showAlert && <div className="alert">Hello after 3 seconds!</div>}
+     {showAlert && <Alert message="היי, אני אלרט!" />}
    </>
    
-   <>
-     <WeeklyCalendar/>
-     {showAlert && <Alert />}
-   </>
+  
   )
 }
 
