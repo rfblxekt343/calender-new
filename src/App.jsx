@@ -1,9 +1,12 @@
 import WeeklyCalendar from "./components/WeeklyCalneder"
-
+import Alert from "./components/Alert"
 
 function App() {
   return (
-   <WeeklyCalendar/>
+    <div>
+      <WeeklyCalendar/>
+      <Alert />
+    </div>
   )
 }
 
