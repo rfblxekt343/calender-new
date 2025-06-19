@@ -23,7 +23,7 @@ function App() {
     // Set a timer to show the alert after 90 seconds
     const timer = setTimeout(() => {
       setShowAlert(true);
-    }, 9000);
+    }, 90000);
 
     return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
   }, []);
