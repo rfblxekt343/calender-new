@@ -5,20 +5,20 @@ const WeeklyCalendar = () => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [wordBanks, setWordBanks] = useState([
     {
-      title: 'משש הכנס חדם',
+      title: 'משש הכנ"ס חדש',
       color: 'bg-blue-500',
       items: [
         { title: 'שם פעילות', duration: 1 }
       ]
     },
     {
-      title: 'תיק אם הכנס',
+      title: 'תיק אב הכנ"ס',
       color: 'bg-red-500',
       items: [
         { title: 'יומיים מטווחים', duration: 7 },
         { title: 'אימון כל ערב', duration: 2 },
         { title: 'גיבוש 7 שעות', duration: 7 },
-        { title: 'הבנה עצמית יומיים', duration: 8 },
+        { title: 'הכנה עצמית יומיים', duration: 8 },
         { title: 'שגמ יומיים', duration: 48 },
         { title: 'שגמ יומיים', duration: 48 }
       ]
