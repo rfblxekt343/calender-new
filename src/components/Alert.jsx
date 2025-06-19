@@ -1,42 +1,60 @@
 import React, { useState } from 'react';
 
-const Alert = () => {
+const Alert = ({ startTimeOut }) => {
   const [visible, setVisible] = useState(true);
-    console.log("djhfjd")
-  if (!visible) return null;
-    const alerts=['זמן ההכנ"ס התקצר ביומיים'    ,'נכנס שינוי בתיק יסוד','נכנס תוכן של יום- גף לוחמה', 'להוסיף 3 שעות ש"כ','נוספו 50 חיילים יש להכין מגורים וכיתות', 'הקולנוע לא פנוי ביום ששוריין']
-  return (
-<div className="fixed inset-0 flex items-center justify-center z-50">
-      {/* Optional overlay background */}
-      <div className="absolute inset-0"></div>
 
-      {/* Alert box */}
+  const alertClosed = () => {
+    setVisible(false);
+    startTimeOut();
+  };
+  if (!visible) return null;
+  const alerts = [
+    'זמן ההכנ"ס התקצר ביומיים',
+    'נכנס שינוי בתיק יסוד',
+    'נכנס תוכן של יום- גף לוחמה',
+    'להוסיף 3 שעות ש"כ',
+    'נוספו 50 חיילים יש להכין מגורים וכיתות',
+    'הקולנוע לא פנוי ביום ששוריין'
+  ];
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
       <div
         dir="rtl"
-        className="relative bg-yellow-100 rounded-md text-yellow-800 p-4 pt-6 rounded shadow-lg max-w-sm w-full mx-4 z-10 overflow-y-auto max-h-[80vh]"
+        className="relative bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 text-center animate-fade-in"
       >
-        {/* Close button in top-right (RTL) */}
+        {/* Close button */}
         <button
-          onClick={() => setVisible(false)}
-          className="absolute top-0.5 right-2 text-xl font-bold text-yellow-800 hover:text-yellow-600 focus:outline-none"
-          aria-label="Close"
+          onClick={alertClosed}
+          className="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-xl"
+          aria-label="סגור"
         >
           ×
         </button>
-
-        {/* Content with icon and message */}
-        <h1 className='text-center font-bold text-lg'>שימו לב לשינויים בלו"ז חזרו וסדרו מחדש לפיהם </h1>
-        <div className="flex flex-row-reverse items-start">
-         
-          <div className="flex-1 text-right text-sm sm:text-base whitespace-pre-wrap">
-                 <ul>
-        {alerts.map((alert, index) => (
-          <li key={index}>{alert}</li>
-        ))}
-      </ul>
-          </div>
-        </div>
+        <h1 className="text-2xl font-bold text-yellow-600 mb-3">שימו לב לשינויים בלו"ז</h1>
+        <p className="text-gray-700 mb-4">חזרו וסדרו מחדש לפיהם</p>
+        <ul className="text-right space-y-2 mb-4">
+          {alerts.map((alert, index) => (
+            <li
+              key={index}
+              className="bg-yellow-100 rounded-md text-yellow-900 px-4 py-2 font-medium shadow-sm"
+            >
+              {alert}
+            </li>
+          ))}
+        </ul>
+        <h2 className="text-lg font-bold text-yellow-700">יש לכם עוד דקה וחצי לתיקונים, היעזרו בבנק "דרישות נוספות"</h2>
       </div>
+      <style>
+        {`
+          .animate-fade-in {
+            animation: fadeIn 0.7s ease;
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+          }
+        `}
+      </style>
     </div>
   );
 };
